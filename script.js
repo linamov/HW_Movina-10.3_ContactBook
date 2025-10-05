@@ -18,12 +18,12 @@ const contactBook = {
     if (!emailRegex.test(email.trim())) return "Invalid email format.";
 
     this.contacts.push({ name: name.trim(), phone: phone.trim(), email: email.trim() });
-    return `Contact "${name}" added successfully!`;
+    return `Contact "${name.trim()}" added successfully!`;
   },
 
   showAll: function() {
     if (this.contacts.length === 0) return "No contacts yet.";
-    return this.contacts.map(c => 
+    return this.contacts.map(c =>
       Object.entries(c).map(([key, value]) => `${key}: ${value}`).join(", ")
     ).join("<br>");
   }
@@ -39,7 +39,7 @@ document.getElementById("searchContact").addEventListener("click", () => {
   const name = prompt("Enter name to search:");
   if (!name) return;
   const found = contactBook.findContact(name);
-  resultDiv.innerHTML = found.length > 0 
+  resultDiv.innerHTML = found.length > 0
     ? found.map(c => Object.entries(c).map(([k,v])=>`${k}: ${v}`).join(", ")).join("<br>")
     : `Contact "${name}" not found.`;
 });
@@ -53,5 +53,5 @@ document.getElementById("addContact").addEventListener("click", () => {
     return;
   }
   const msg = contactBook.addContact(name, phone, email);
-  resultDiv.textContent = msg;
+  resultDiv.innerHTML = msg + "<br><br>" + contactBook.showAll();
 });
